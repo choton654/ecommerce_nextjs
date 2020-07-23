@@ -1,6 +1,7 @@
 import Axios from 'axios';
 import ProductAttributes from '../components/Product/ProductAttributes';
 import ProductSummary from '../components/Product/ProductSummary';
+import baseUrl from '../utils/baseUrl';
 
 function Product({ product }) {
   console.log(product);
@@ -13,7 +14,7 @@ function Product({ product }) {
 }
 
 Product.getInitialProps = async ({ query: { _id } }) => {
-  const url = 'http://localhost:3000/api/product';
+  const url = `${baseUrl}/api/product`;
   const { data } = await Axios.get(url, { params: { _id } });
 
   return {
