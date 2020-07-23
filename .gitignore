@@ -1,0 +1,10 @@
+node_modules
+<<<<<<< HEAD
+=======
+.next
+
+dist
+next.config.*
+now.json
+seeder.js
+>>>>>>> 7dd85a6... make productlist component
