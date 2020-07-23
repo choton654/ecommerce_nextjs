@@ -1,7 +1,3 @@
-<<<<<<< HEAD
-function ProductList() {
-  return <>ProductList</>;
-=======
 import { Card } from 'semantic-ui-react';
 
 function ProductList({ products }) {
@@ -25,7 +21,6 @@ function ProductList({ products }) {
       items={mapProducts(products)}
     />
   );
->>>>>>> 7dd85a6... make productlist component
 }
 
 export default ProductList;

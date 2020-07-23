@@ -16,11 +16,7 @@ function Header() {
   }
 
   return (
-<<<<<<< HEAD
-    <Menu fluid inverted id='menu'>
-=======
     <Menu stackable fluid inverted id='menu'>
->>>>>>> 7dd85a6... make productlist component
       <Container>
         <Link href='/'>
           <Menu.Item header active={isActive('/')}>
@@ -55,11 +51,7 @@ function Header() {
               </Menu.Item>
             </Link>
             <Menu.Item header>
-<<<<<<< HEAD
-              <Icon name='logout' size='large' />
-=======
               <Icon name='sign out' size='large' />
->>>>>>> 7dd85a6... make productlist component
               logout
             </Menu.Item>
           </>

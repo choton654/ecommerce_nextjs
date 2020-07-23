@@ -1,13 +1,6 @@
 import App from 'next/app';
 import Layout from '../components/_App/Layout';
 class MyApp extends App {
-<<<<<<< HEAD
-  render() {
-    const { Component } = this.props;
-    return (
-      <Layout>
-        <Component />
-=======
   static async getInitialProps({ Component, ctx }) {
     let pageProps;
 
@@ -23,7 +16,6 @@ class MyApp extends App {
     return (
       <Layout>
         <Component {...pageProps} />
->>>>>>> 7dd85a6... make productlist component
       </Layout>
     );
   }
