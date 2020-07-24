@@ -22,6 +22,7 @@ const productSchema = new mongoose.Schema({
   mediaUrl: {
     type: String,
     required: true,
+    unique: [true, 'Item already exists'],
   },
 });
 

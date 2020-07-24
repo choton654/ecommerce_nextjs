@@ -5,7 +5,7 @@ function ProductSummary({ name, price, _id, sku, mediaUrl }) {
   return (
     <Item.Group>
       <Item>
-        <Item.Image size='medium' src={mediaUrl} />
+        <Item.Image src={mediaUrl} size='medium' />
         <Item.Content>
           <Item.Header>{name}</Item.Header>
           <Item.Description>

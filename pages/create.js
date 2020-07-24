@@ -1,5 +1,5 @@
 import Axios from 'axios';
-import { useState } from 'react';
+import { useEffect, useState } from 'react';
 import {
   Button,
   Form,
@@ -11,6 +11,7 @@ import {
   TextArea,
 } from 'semantic-ui-react';
 import baseUrl from '../utils/baseUrl';
+import catchErrors from '../utils/catchErrors';
 function CreateProduct() {
   const initialState = {
     name: '',
@@ -22,6 +23,13 @@ function CreateProduct() {
   const [mediaPreview, setMediaPreview] = useState('');
   const [success, setSuccess] = useState(false);
   const [loading, setLoading] = useState(false);
+  const [disabled, setDisabled] = useState(true);
+  const [error, setError] = useState('');
+
+  useEffect(() => {
+    const isProduct = Object.values(product).every((el) => Boolean(el));
+    isProduct ? setDisabled(false) : setDisabled(true);
+  }, [product]);
 
   const handelChange = (e) => {
     const { name, value, files } = e.target;
@@ -40,13 +48,14 @@ function CreateProduct() {
     try {
       const { data } = await Axios.post(url, product);
       console.log(data);
-      setLoading(false);
+      setProduct(initialState);
+      setSuccess(true);
     } catch (error) {
-      console.log(error);
+      catchErrors(error, setError);
+      // console.error('Error!', error.response.data);
+    } finally {
       setLoading(false);
     }
-    setProduct(initialState);
-    setSuccess(true);
   };
 
   return (
@@ -55,7 +64,12 @@ function CreateProduct() {
         <Icon name='add' color='orange' />
         Create New Product
       </Header>
-      <Form loading={loading} success={success} onSubmit={handelSubmit}>
+      <Form
+        loading={loading}
+        success={success}
+        error={Boolean(error)}
+        onSubmit={handelSubmit}>
+        <Message error header='Oops!' content={error} />
         <Message
           success
           icon='check'
@@ -103,6 +117,7 @@ function CreateProduct() {
         />
         <Form.Field
           control={Button}
+          disabled={disabled || loading}
           color='blue'
           icon='pencil alternate'
           content='submit'

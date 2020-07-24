@@ -1,6 +1,6 @@
 import nc from 'next-connect';
 import Product from '../../models/Product';
-
+// const handler = nc();
 export default nc({
   onError(error, req, res) {
     res.ststus(501).json({ msg: `somethinh went wrong ${error}` });
@@ -40,11 +40,23 @@ const handelPostRequest = async (req, res) => {
   if (!name || !price || !description || !mediaUrl) {
     return res.status(422).send('Product missing one or more fields');
   }
-  const product = await new Product({
-    name,
-    price,
-    description,
-    mediaUrl,
-  }).save();
-  res.status(201).json(product);
+  if (!mediaUrl.startsWith('https://')) {
+    return res.status(422).send('please enter a valid url');
+  }
+  const product = Product.findOne({ mediaUrl });
+
+  if (product) {
+    return res.status(422).send('Item already exists');
+  }
+  try {
+    const product = await new Product({
+      name,
+      price,
+      description,
+      mediaUrl,
+    }).save();
+    res.status(201).json(product);
+  } catch (error) {
+    res.status(500).send('Server error in creating product');
+  }
 };
