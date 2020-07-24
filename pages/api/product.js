@@ -1,9 +1,12 @@
 import nc from 'next-connect';
 import Product from '../../models/Product';
+import connectDb from '../../utils/connectDb';
+
+connectDb();
 // const handler = nc();
 export default nc({
   onError(error, req, res) {
-    res.ststus(501).json({ msg: `somethinh went wrong ${error}` });
+    res.ststus(501).json({ msg: `something went wrong ${error}` });
   },
   onNoMatch(req, res) {
     req.status(405).json({ msg: `method ${req.method} not allowed` });
