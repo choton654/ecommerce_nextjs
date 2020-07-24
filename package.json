@@ -6,10 +6,13 @@
   "dependencies": {
     "axios": "^0.19.2",
     "bcrypt": "^5.0.0",
+    "jimp": "^0.14.0",
     "js-cookie": "^2.2.1",
     "jsonwebtoken": "^8.5.1",
     "mongoose": "^5.9.25",
+    "multer": "^1.4.2",
     "next": "^9.4.4",
+    "next-connect": "^0.8.1",
     "nookies": "^2.3.2",
     "nprogress": "^0.2.0",
     "react": "^16.13.1",
