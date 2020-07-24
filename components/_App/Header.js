@@ -7,8 +7,7 @@ Router.events.on('routeChangeStart', () => nProgress.start());
 Router.events.on('routeChangeComplete', () => nProgress.done());
 Router.events.on('routeChangeError', () => nProgress.done());
 
-function Header() {
-  const user = false;
+function Header({ user }) {
   const router = useRouter();
 
   function isActive(route) {
