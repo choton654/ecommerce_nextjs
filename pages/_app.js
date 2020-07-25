@@ -1,5 +1,6 @@
 import axios from 'axios';
 import App from 'next/app';
+import Router from 'next/router';
 import { parseCookies } from 'nookies';
 import Layout from '../components/_App/Layout';
 import { redirectUser } from '../utils/auth';
@@ -26,6 +27,14 @@ class MyApp extends App {
         const url = `${baseUrl}/api/account`;
         const { data } = await axios.get(url, payload);
         const user = data;
+        const isRoot = user.role === 'root';
+        const isAdmin = user.role === 'admin';
+        // if authenticated but role is not root or admin redirect from '/create' page
+        const isNotPermited =
+          !(isRoot || isAdmin) && ctx.pathname === '/create';
+        if (isNotPermited) {
+          redirectUser(ctx, '/');
+        }
         pageProps.user = user;
       } catch (error) {
         console.error('Error getting current error', error);
@@ -39,6 +48,15 @@ class MyApp extends App {
     }
 
     return { pageProps };
+  }
+
+  componentDidMount() {
+    window.addEventListener('storage', (e) => {
+      if (e.key === 'logout') {
+        console.log('logout from storage');
+        Router.push('/login');
+      }
+    });
   }
 
   render() {

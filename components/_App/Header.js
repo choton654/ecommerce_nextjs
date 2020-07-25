@@ -2,6 +2,7 @@ import Link from 'next/link';
 import Router, { useRouter } from 'next/router';
 import nProgress from 'nprogress';
 import { Container, Icon, Image, Menu } from 'semantic-ui-react';
+import { handelLogout } from '../../utils/auth';
 
 Router.events.on('routeChangeStart', () => nProgress.start());
 Router.events.on('routeChangeComplete', () => nProgress.done());
@@ -9,6 +10,10 @@ Router.events.on('routeChangeError', () => nProgress.done());
 
 function Header({ user }) {
   const router = useRouter();
+
+  const isRoot = user && user.role === 'root';
+  const isAdmin = user && user.role === 'admin';
+  const isRootAdmin = isAdmin || isRoot;
 
   function isActive(route) {
     return route === router.pathname;
@@ -33,7 +38,7 @@ function Header({ user }) {
             cart
           </Menu.Item>
         </Link>
-        {user && (
+        {isRootAdmin && (
           <Link href='/create'>
             <Menu.Item header active={isActive('/create')}>
               <Icon name='add square' size='large' />
@@ -49,7 +54,8 @@ function Header({ user }) {
                 account
               </Menu.Item>
             </Link>
-            <Menu.Item header>
+
+            <Menu.Item header onClick={handelLogout}>
               <Icon name='sign out' size='large' />
               logout
             </Menu.Item>
