@@ -4,6 +4,7 @@ import { useEffect, useRef, useState } from 'react';
 import { Checkbox, Header, Icon, Table } from 'semantic-ui-react';
 import baseUrl from '../../utils/baseUrl';
 import catchErrors from '../../utils/catchErrors';
+import { formatedDate } from '../../utils/formatDate';
 
 function AccountPermissions() {
   const [users, setUsers] = useState([]);
@@ -85,8 +86,8 @@ function UserPermission({ user }) {
       </Table.Cell>
       <Table.Cell>{user.name}</Table.Cell>
       <Table.Cell>{user.email}</Table.Cell>
-      <Table.Cell>{user.createdAt}</Table.Cell>
-      <Table.Cell>{user.updatedAt}</Table.Cell>
+      <Table.Cell>{formatedDate(user.createdAt)}</Table.Cell>
+      <Table.Cell>{formatedDate(user.updatedAt)}</Table.Cell>
       <Table.Cell>{admin ? 'admin' : 'user'}</Table.Cell>
     </Table.Row>
   );

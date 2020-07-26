@@ -1,4 +1,5 @@
 import nc from 'next-connect';
+import Cart from '../../models/Cart';
 import Product from '../../models/Product';
 import connectDb from '../../utils/connectDb';
 
@@ -27,6 +28,12 @@ const handelGetRequest = async (req, res) => {
     query: { _id },
   } = req;
   const product = await Product.findOne({ _id });
+
+  // remove products from all carts
+  await Cart.updateMany(
+    { 'products.product': _id },
+    { $pull: { products: { product: _id } } },
+  );
   res.status(200).json(product);
 };
 
@@ -46,12 +53,12 @@ const handelPostRequest = async (req, res) => {
   if (!mediaUrl.startsWith('https://')) {
     return res.status(422).send('please enter a valid url');
   }
-  const product = Product.findOne({ mediaUrl });
+  // const product = Product.findOne({ mediaUrl });
 
-  if (product) {
-    return res.status(422).send('Item already exists');
-  }
-  try {
+  // if (product) {
+  //   return res.status(422).send('Item already exists');
+  // }
+  https: https: try {
     const product = await new Product({
       name,
       price,
