@@ -47,7 +47,7 @@ function CreateProduct() {
     const url = `${baseUrl}/api/product`;
     try {
       const { data } = await Axios.post(url, product);
-      console.log(data);
+      // console.log(data);
       setProduct(initialState);
       setSuccess(true);
     } catch (error) {

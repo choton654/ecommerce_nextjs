@@ -65,7 +65,7 @@ function UserPermission({ user }) {
       isFirstRun.current = false;
       return;
     }
-    console.log('role updated', admin);
+    // console.log('role updated', admin);
     updatePermission();
   }, [admin]);
 

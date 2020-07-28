@@ -58,7 +58,7 @@ const handelPostRequest = async (req, res) => {
   // if (product) {
   //   return res.status(422).send('Item already exists');
   // }
-  https: https: try {
+  try {
     const product = await new Product({
       name,
       price,

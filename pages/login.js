@@ -33,7 +33,7 @@ function Signup() {
     try {
       setLoading(true);
       setError('');
-      console.log(user);
+      // console.log(user);
       const url = `${baseUrl}/api/login`;
       const payload = { ...user };
       const { data } = await Axios.post(url, payload);

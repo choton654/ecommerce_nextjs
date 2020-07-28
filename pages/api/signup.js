@@ -44,7 +44,7 @@ export default nc({
       email,
       password: hash,
     }).save();
-    console.log({ newUser });
+    // console.log({ newUser });
 
     // create a cart for new user
     await new Cart({ user: newUser._id }).save();

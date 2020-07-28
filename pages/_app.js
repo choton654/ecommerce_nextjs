@@ -53,7 +53,7 @@ class MyApp extends App {
   componentDidMount() {
     window.addEventListener('storage', (e) => {
       if (e.key === 'logout') {
-        console.log('logout from storage');
+        // console.log('logout from storage');
         Router.push('/login');
       }
     });
