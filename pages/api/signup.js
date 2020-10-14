@@ -10,7 +10,7 @@ import Cors from "cors";
 
 connectDb();
 const cors = Cors({
-  methods: ["GET", "HEAD"],
+  methods: ["GET", "HEAD", "POST"],
 });
 // const handler = nc();
 export default nc({

@@ -9,7 +9,7 @@ import connectDb from "../../utils/connectDb";
 import Cors from "cors";
 connectDb();
 const cors = Cors({
-  methods: ["GET", "HEAD"],
+  methods: ["GET", "HEAD", "POST"],
 });
 const stripe = Stripe(process.env.STRIPE_SECRET_KEY);
 

@@ -8,7 +8,7 @@ connectDb();
 // const handler = nc();
 
 const cors = Cors({
-  methods: ["GET", "HEAD"],
+  methods: ["GET", "HEAD", "POST", "DELETE"],
 });
 export default nc({
   onError(error, req, res) {

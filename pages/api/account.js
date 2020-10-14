@@ -6,7 +6,7 @@ import Cors from "cors";
 
 connectDb();
 const cors = Cors({
-  methods: ["GET", "HEAD"],
+  methods: ["GET", "HEAD", "PUT"],
 });
 export default nc({
   onError(error, req, res) {
