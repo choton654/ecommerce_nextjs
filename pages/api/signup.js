@@ -9,7 +9,9 @@ import connectDb from "../../utils/connectDb";
 import Cors from "cors";
 
 connectDb();
-
+const cors = Cors({
+  methods: ["GET", "HEAD"],
+});
 // const handler = nc();
 export default nc({
   onError(error, req, res) {
@@ -19,7 +21,7 @@ export default nc({
     req.status(405).send(`method ${req.method} not allowed`);
   },
 })
-  .use(Cors)
+  .use(cors)
   .post(async (req, res) => {
     const { name, email, password } = req.body;
     try {

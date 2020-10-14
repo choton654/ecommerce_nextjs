@@ -8,7 +8,9 @@ import { calculateCartTotal } from "../../utils/calculateCartTotal";
 import connectDb from "../../utils/connectDb";
 import Cors from "cors";
 connectDb();
-
+const cors = Cors({
+  methods: ["GET", "HEAD"],
+});
 const stripe = Stripe(process.env.STRIPE_SECRET_KEY);
 
 export default nc({
@@ -19,7 +21,7 @@ export default nc({
     req.status(405).send(`method ${req.method} not allowed`);
   },
 })
-  .use(Cors)
+  .use(cors)
   .post(async (req, res) => {
     const { paymentData } = req.body;
 

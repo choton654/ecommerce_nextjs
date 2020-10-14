@@ -6,6 +6,10 @@ import Cors from "cors";
 
 connectDb();
 // const handler = nc();
+
+const cors = Cors({
+  methods: ["GET", "HEAD"],
+});
 export default nc({
   onError(error, req, res) {
     res.ststus(501).json({ msg: `something went wrong ${error}` });
@@ -14,7 +18,7 @@ export default nc({
     req.status(405).json({ msg: `method ${req.method} not allowed` });
   },
 })
-  .use(Cors)
+  .use(cors)
   .get((req, res) => {
     handelGetRequest(req, res);
   })
