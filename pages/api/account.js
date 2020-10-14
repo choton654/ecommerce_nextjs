@@ -1,7 +1,8 @@
-import jwt from 'jsonwebtoken';
-import nc from 'next-connect';
-import User from '../../models/User';
-import connectDb from '../../utils/connectDb';
+import jwt from "jsonwebtoken";
+import nc from "next-connect";
+import User from "../../models/User";
+import connectDb from "../../utils/connectDb";
+import Cors from "cors";
 
 connectDb();
 
@@ -13,30 +14,31 @@ export default nc({
     req.status(405).send(`method ${req.method} not allowed`);
   },
 })
+  .use(Cors)
   .get(async (req, res) => {
     if (!req.headers.authorization) {
-      return res.status(401).send('No authorization token');
+      return res.status(401).send("No authorization token");
     }
 
     try {
       const { userId } = jwt.verify(
         req.headers.authorization,
-        process.env.JWT_SECRET,
+        process.env.JWT_SECRET
       );
       const user = await User.findOne({ _id: userId });
       if (user) {
         res.status(200).json(user);
       } else {
-        res.status(404).send('User not found');
+        res.status(404).send("User not found");
       }
     } catch (error) {
       console.error(error);
-      res.status(500).send('Invalid token');
+      res.status(500).send("Invalid token");
     }
   })
   .put(async (req, res) => {
     const { _id, role } = req.body;
 
     const user = await User.findOneAndUpdate({ _id }, { role });
-    res.status(200).send('User updated');
+    res.status(200).send("User updated");
   });

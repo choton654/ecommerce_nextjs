@@ -1,7 +1,8 @@
-import nc from 'next-connect';
-import Cart from '../../models/Cart';
-import Product from '../../models/Product';
-import connectDb from '../../utils/connectDb';
+import nc from "next-connect";
+import Cart from "../../models/Cart";
+import Product from "../../models/Product";
+import connectDb from "../../utils/connectDb";
+import Cors from "cors";
 
 connectDb();
 // const handler = nc();
@@ -13,6 +14,7 @@ export default nc({
     req.status(405).json({ msg: `method ${req.method} not allowed` });
   },
 })
+  .use(Cors)
   .get((req, res) => {
     handelGetRequest(req, res);
   })
@@ -31,8 +33,8 @@ const handelGetRequest = async (req, res) => {
 
   // remove products from all carts
   await Cart.updateMany(
-    { 'products.product': _id },
-    { $pull: { products: { product: _id } } },
+    { "products.product": _id },
+    { $pull: { products: { product: _id } } }
   );
   res.status(200).json(product);
 };
@@ -42,16 +44,16 @@ const handelDeleteRequest = async (req, res) => {
     query: { _id },
   } = req;
   await Product.findOneAndDelete({ _id });
-  res.status(200).json({ msg: 'product deleted' });
+  res.status(200).json({ msg: "product deleted" });
 };
 
 const handelPostRequest = async (req, res) => {
   const { name, price, description, mediaUrl } = req.body;
   if (!name || !price || !description || !mediaUrl) {
-    return res.status(422).send('Product missing one or more fields');
+    return res.status(422).send("Product missing one or more fields");
   }
-  if (!mediaUrl.startsWith('https://')) {
-    return res.status(422).send('please enter a valid url');
+  if (!mediaUrl.startsWith("https://")) {
+    return res.status(422).send("please enter a valid url");
   }
   // const product = Product.findOne({ mediaUrl });
 
@@ -67,6 +69,6 @@ const handelPostRequest = async (req, res) => {
     }).save();
     res.status(201).json(product);
   } catch (error) {
-    res.status(500).send('Server error in creating product');
+    res.status(500).send("Server error in creating product");
   }
 };

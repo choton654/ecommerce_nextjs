@@ -1,8 +1,10 @@
-import jwt from 'jsonwebtoken';
-import mongoose from 'mongoose';
-import nc from 'next-connect';
-import Cart from '../../models/Cart';
-import connectDb from '../../utils/connectDb';
+import jwt from "jsonwebtoken";
+import mongoose from "mongoose";
+import nc from "next-connect";
+import Cart from "../../models/Cart";
+import connectDb from "../../utils/connectDb";
+import Cors from "cors";
+
 connectDb();
 
 export default nc({
@@ -13,9 +15,10 @@ export default nc({
     req.status(405).send(`method ${req.method} not allowed`);
   },
 })
+  .use(Cors)
   .get(async (req, res) => {
     if (!req.headers.authorization) {
-      return res.status(401).send('No authorization token');
+      return res.status(401).send("No authorization token");
     }
 
     try {
@@ -24,24 +27,24 @@ export default nc({
         process.env.JWT_SECRET
       );
       const cart = await Cart.findOne({ user: userId }).populate({
-        path: 'products.product',
-        model: 'product',
+        path: "products.product",
+        model: "product",
       });
       if (cart) {
         res.status(200).json(cart.products);
       } else {
-        res.status(404).send('cart not found');
+        res.status(404).send("cart not found");
       }
     } catch (error) {
       console.error(error);
-      res.status(500).send('Invalid token');
+      res.status(500).send("Invalid token");
     }
   })
   .put(async (req, res) => {
     const { quantity, productId } = req.body;
 
     if (!req.headers.authorization) {
-      return res.status(401).send('No authorization token');
+      return res.status(401).send("No authorization token");
     }
     try {
       const { userId } = jwt.verify(
@@ -59,8 +62,8 @@ export default nc({
       // If so, increment quantity (by number provided to request)
       if (productExists) {
         await Cart.findOneAndUpdate(
-          { _id: cart._id, 'products.product': productId },
-          { $inc: { 'products.$.quantity': quantity } }
+          { _id: cart._id, "products.product": productId },
+          { $inc: { "products.$.quantity": quantity } }
         );
       } else {
         // If not, add new product with given quantity
@@ -70,16 +73,16 @@ export default nc({
           { $addToSet: { products: newProduct } }
         );
       }
-      res.status(200).send('Cart updated');
+      res.status(200).send("Cart updated");
     } catch (error) {
       console.error(error);
-      res.status(500).send('Invalid token');
+      res.status(500).send("Invalid token");
     }
   })
   .delete(async (req, res) => {
     const { productId } = req.query;
     if (!req.headers.authorization) {
-      return res.status(401).send('No authorization token');
+      return res.status(401).send("No authorization token");
     }
     try {
       const { userId } = jwt.verify(
@@ -91,12 +94,12 @@ export default nc({
         { $pull: { products: { product: productId } } },
         { new: true }
       ).populate({
-        path: 'products.product',
-        model: 'product',
+        path: "products.product",
+        model: "product",
       });
       res.status(200).json(cart.products);
     } catch (error) {
       console.error(error);
-      res.status(500).send('Invalid token');
+      res.status(500).send("Invalid token");
     }
   });
