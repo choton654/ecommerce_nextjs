@@ -1,16 +1,16 @@
-import Axios from 'axios';
-import { parseCookies } from 'nookies';
-import AccountHeader from '../components/Account/AccountHeader';
-import AccountOrders from '../components/Account/AccountOrders';
-import AccountPermissions from '../components/Account/AccountPermissions';
-import baseUrl from '../utils/baseUrl';
+import axios from "axios";
+import { parseCookies } from "nookies";
+import AccountHeader from "../components/Account/AccountHeader";
+import AccountOrders from "../components/Account/AccountOrders";
+import AccountPermissions from "../components/Account/AccountPermissions";
+import baseUrl from "../utils/baseUrl";
 
 function Account({ user, orders }) {
   return (
     <>
       <AccountHeader {...user} />
       <AccountOrders orders={orders} />
-      {user.role === 'root' && <AccountPermissions />}
+      {user.role === "root" && <AccountPermissions />}
     </>
   );
 }
@@ -22,7 +22,7 @@ Account.getInitialProps = async (ctx) => {
   }
   const payload = { headers: { Authorization: token } };
   const url = `${baseUrl}/api/orders`;
-  const { data } = await Axios.get(url, payload);
+  const { data } = await axios.get(url, payload);
   return data;
 };
 
