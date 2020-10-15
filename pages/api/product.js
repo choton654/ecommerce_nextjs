@@ -18,7 +18,6 @@ export default nc({
     req.status(405).json({ msg: `method ${req.method} not allowed` });
   },
 })
-  .use(cors)
   .get((req, res) => {
     handelGetRequest(req, res);
   })

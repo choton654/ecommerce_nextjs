@@ -15,28 +15,26 @@ export default nc({
   onNoMatch(req, res) {
     req.status(405).send(`method ${req.method} not allowed`);
   },
-})
-  .use(cors)
-  .get(async (req, res) => {
-    if (!req.headers.authorization) {
-      return res.status(401).send("No authorization token");
-    }
+}).get(async (req, res) => {
+  if (!req.headers.authorization) {
+    return res.status(401).send("No authorization token");
+  }
 
-    try {
-      const { userId } = jwt.verify(
-        req.headers.authorization,
-        process.env.JWT_SECRET
-      );
+  try {
+    const { userId } = jwt.verify(
+      req.headers.authorization,
+      process.env.JWT_SECRET
+    );
 
-      const orders = await Order.find({ user: userId })
-        .sort({ createdAt: "desc" })
-        .populate({
-          path: "products.product",
-          model: "product",
-        });
-      res.status(200).json({ orders });
-    } catch (error) {
-      console.error(error);
-      res.status(403).send("Please login again");
-    }
-  });
+    const orders = await Order.find({ user: userId })
+      .sort({ createdAt: "desc" })
+      .populate({
+        path: "products.product",
+        model: "product",
+      });
+    res.status(200).json({ orders });
+  } catch (error) {
+    console.error(error);
+    res.status(403).send("Please login again");
+  }
+});

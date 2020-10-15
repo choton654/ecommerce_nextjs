@@ -19,7 +19,6 @@ export default nc({
     req.status(405).send(`method ${req.method} not allowed`);
   },
 })
-  .use(cors)
   .get(async (req, res) => {
     if (!req.headers.authorization) {
       return res.status(401).send("No authorization token");
